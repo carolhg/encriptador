@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codificador de Texto | Challenge 1</title>
+    <meta name="title" content="Codificador de Texto | Challenge 1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+ 
+    <!-- Favicons -->
+    <link rel="icon" href="./favicon/favicon-32.png" sizes="32x32">
+    <link rel="icon" href="./favicon/favicon-128.png" sizes="128x128">
+    <link rel="icon" href="./favicon/favicon-180.png" sizes="180x180">
+    <link rel="icon" href="./favicon/favicon-192.png" sizes="192x192">
+    <link rel="shortcut icon" sizes="196x196" href="./favicon/favicon-196.png">
+    <link rel="apple-touch-icon" href="./favicon/favicon-120.png" sizes="120x120">
+    <link rel="apple-touch-icon" href="./favicon/favicon-152.png" sizes="152x152">
+    <link rel="apple-touch-icon" href="./favicon/favicon-180.png" sizes="180x180">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="./assets/styles/style.css">
+</head>
+<body>
+    <header>
+        <h1>Codificador de Texto</h1>
+        <img src="./assets/svg/logoalura-blue.svg" alt="Logo alura">
+    </header>
+    <main>
+        <form class="form__section">
+            <textarea class="form__input" name="mesaje" cols="30" rows="10"
+                placeholder="Ingrese  el texto aquí"></textarea>
+            <div class="btn__container">
+                <div class="alert__msj"><img src="./assets/svg/alert__icon.svg" alt="alert icon"><span> Solo letras
+                        minúsculas, sin acentos ni caracteres especiales</span></div>
+            </div>
+            <div class="submit__container">
+                <input  class="form__btn" type="submit" value="Encriptar">
+                <input  class="form__btn form__btn--secundary" type="submit" value="Desencriptar">
+            </div>
+        </form>
+        <aside class="result">
+            <img src="./assets/img/search.png" alt="imagen" class="result__img">
+            <div class="loader hidden"></div>
+            <div class="result__container">
+                <h3 class="result__title">Ningún mensaje fue encontrado</h3>
+                <p class="result__text">Ingrese el texto que desea encriptar o desencriptar.</p>
+                <button class="result__btn form__btn form__btn--secundary hidden">Copiar</button>
+            </div>
+        </aside>
+    </main>
+    <footer>
+        <p>Challenge #1 - Desarrollado por @carolhg</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
