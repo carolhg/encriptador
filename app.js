@@ -1,73 +1,90 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const textArea = document.querySelector(".form__input");
-    const imagenMuneco = document.querySelector(".result__img");
-    const loader = document.querySelector(".loader");
-    const resultadoTitulo = document.querySelector(".result__title");
-    const resultadoText = document.querySelector(".result__text");
-    const botones = document.querySelectorAll(".form__btn");
-    const botonCopiar = document.querySelector(".result__btn");
+const d = document;
+const textArea = d.querySelector(".form__input");
+const imagenMuneco = d.querySelector(".result__img");
+const loaderBatman = d.querySelector(".loader");
+const resultadoTitulo = d.querySelector(".result__title");
+const resultadoText = d.querySelector(".result__text");
+const botonEncriptar = d.querySelector(".form__btn");
+const botonDesencriptar = d.querySelectorAll(".form__btn");
+const botonCopiar = d.querySelector(".result__btn");
 
-    /* Llaves de encriptación */
-    const llaves = [
-        ["e", "enter"],
-        ["i", "imes"],
-        ["a", "ai"],
-        ["o", "ober"],
-        ["u", "ufat"],
-    ];
+const llaves = [
+  ["e", "enter"],
+  ["i", "imes"],
+  ["a", "ai"],
+  ["o", "ober"],
+  ["u", "ufat"],
+];
 
-    // Función para encriptar el mensaje
-    const encriptarMensaje = (mensaje) => {
-        return llaves.reduce(
-            (encriptado, [normal, encriptadoVal]) =>
-                encriptado.replace(new RegExp(normal, "g"), encriptadoVal),
-            mensaje
-        );
-    };
+// Función para encriptar
+function ecriptartexto(texto) {
+  let textoEncriptado = "";
+  for (let i = 0; i < texto.length; i++) {
+    let letra = texto[i];
+    let encriptada = letra;
+    for (let j = 0; j < llaves.length; j++) {
+      if (letra === llaves[j][0]) {
+        encriptada = llaves[j][1]; // Reemplaza la letra por su equivalente encriptado
+        break; // Termina el bucle cuando se encuentra la correspondencia
+      }
+    }
+    textoEncriptado += encriptada;
+  }
+  return textoEncriptado;
+}
 
-    // Función para desencriptar el mensaje
-    const desencriptarMensaje = (mensaje) => {
-        return llaves.reduce(
-            (desencriptado, [normal, encriptadoVal]) =>
-                desencriptado.replace(new RegExp(encriptadoVal, "g"), normal),
-            mensaje
-        );
-    };
+// Función para desencriptar
+function desencriptartexto(texto) {
+  let textoDesencriptado = texto;
+  for (let i = 0; i < llaves.length; i++) {
+    let regex = new RegExp(llaves[i][1], "g");
+    textoDesencriptado = textoDesencriptado.replace(regex, llaves[i][0]); // Reemplaza el texto encriptado por su equivalente original
+  }
+  return textoDesencriptado; // Devuelve el texto desencriptado
+}
 
-    // Mostrar loader mientras se escribe
-    textArea.addEventListener("input", () => {
-        imagenMuneco.style.display = "none";
-        loader.style.display = "block";
-        resultadoTitulo.textContent = "Capturando Mensaje.";
-        resultadoText.textContent = "";
-    });
+// Función para validación de texto
+function checkString(text) {
+  const validRegex = /^[a-z\s]+$/; // Solo letras minúsculas y espacios
+  if (!validRegex.test(text)) {
+    alert("El texto no puede contener letras mayúsculas, acentos, o caracteres especiales.");
+    return false;
+  }
+  return true;
+}
 
-    // Manejo de botones de encriptar y desencriptar
-    botones.forEach((boton, index) => {
-        boton.addEventListener("click", (e) => {
-            e.preventDefault();
-            let mensaje = textArea.value.toLowerCase();
-            let resultado =
-                index === 0
-                    ? encriptarMensaje(mensaje)
-                    : desencriptarMensaje(mensaje);
-            loader.style.display = "none";
-            resultadoText.textContent = resultado;
-            resultadoTitulo.textContent = "El resultado es:";
-            botonCopiar.classList.remove("hidden");
-        });
-    });
+// Función del botón encriptar
+botonEncriptar.addEventListener("click", (e) => {
+  e.preventDefault();
+  let texto = textArea.value; // NO transformar a minúsculas antes de la validación
+  if (checkString(texto)) {
+    texto = texto.toLowerCase(); // Ahora transformamos a minúsculas
+    let textoEncriptado = ecriptartexto(texto);
+    resultadoText.textContent = textoEncriptado;
+    botonCopiar.classList.remove("hidden");
+    resultadoTitulo.textContent = "El resultado es:";
+  }
+});
 
-    // Copiar texto al portapapeles
-    botonCopiar.addEventListener("click", () => {
-        // Asegúrate de que el texto que se copia es el contenido de resultadoText
-        const textoParaCopiar = resultadoText.textContent;
-        navigator.clipboard.writeText(textoParaCopiar).then(() => {
-            imagenMuneco.style.display = "block";
-            loader.style.display = "none";
-            resultadoTitulo.textContent = "El texto se copió";
-            botonCopiar.classList.add("hidden");
-            resultadoText.textContent = "";
-        });
-    });
+botonDesencriptar[1].addEventListener("click", (e) => {
+  e.preventDefault();
+  let texto = textArea.value; // NO transformar a minúsculas antes de la validación
+  if (checkString(texto)) {
+    texto = texto.toLowerCase(); // Ahora transformamos a minúsculas
+    let textoDesencriptado = desencriptartexto(texto);
+    resultadoText.textContent = textoDesencriptado;
+    resultadoTitulo.textContent = "El resultado es:";
+    botonCopiar.classList.remove("hidden");
+  }
+});
+
+botonCopiar.addEventListener("click", () => {
+  let textoCopiado = resultadoText.textContent;
+  navigator.clipboard.writeText(textoCopiado).then(() => {
+    imagenMuneco.style.display = "block";
+    loaderBatman.classList.add("hidden");
+    resultadoTitulo.textContent = "El texto se copió";
+    botonCopiar.classList.add("hidden");
+    resultadoText.textContent = "";
+  });
 });
